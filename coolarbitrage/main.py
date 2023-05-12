@@ -62,11 +62,11 @@ currency_codes = {
     "Venezuelan Bolivar": "VEF"
 }
 
-currencies = ['USD', 'CAD', 'JPY'] # initialize currencies you are interested in monitoring
+currencies = ['USD', 'CAD', 'JPY'] # initialize currencies interested in monitoring
 
 @app.route('/get_rates')
 def get_rates():
-    # Initialize an empty dictionary to store the rates
+    
     rates = {}
 
     for currency in currencies:
