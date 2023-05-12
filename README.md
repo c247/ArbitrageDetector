@@ -8,7 +8,7 @@ This program web-scrapes exchange rates for currencies and runs a modification o
 ### How does Bellman Ford detect for negative weight cycles?
 - The Bellman Ford algorithm is a shortest path algorithm. As the algorithm is executed the Single Source Shortest path from a given source to all other vertices using at most k edges can be found out at each step. The algorithm loops through this value k from 0 all the way to n-1 edges. If The algorithm is run again with k = n edges and a shortest path distance is updated, then we know an a negative weight cycle exists. This is a high level explanation of how it works :). 
 
-### Why do we need the negative inverse log of the exchange rates?
+### Why do we need the negative log of the exchange rates?
 - The currency exchange rates would have to be dealth with in a multiplicative way. In fact an arbitrage exists if the w1 * w2 * w3 * … * wn > 1, where w is the exchange rates.
 - Since this is difficult to deal with/identify in a graph we can create a additive property by taking the log on both sides of the equation log(w1) + log(w2) + log(w3) + … + log(wn) > 0.
 - If we take the negative on both sides we get (-log(w1)) + (-log(w2)) + (-log(w3)) + … + (-log(wn)) < 0
