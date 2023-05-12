@@ -4,7 +4,7 @@ This program web-scrapes exchange rates for currencies and runs a modification o
 ### Technologies
 Python, Flask, BeautifulSoup, Typescript, React
 ### How it Works
-- The backend is a Python Flask application that uses BeautifulSoup to scrape excahnge rates between currencies from the Web and creates an api route that relays this data.
+- The backend is a Python Flask application that uses BeautifulSoup to scrape parse exchange rates from the Web and creates an api route that relays this data.
 - The frontend is a Typescript React application that runs the Arbitrage detection algorithm and displays results to the user. It actively updates results every 30seconds - utilizing the api created above.
 
 ### How does Bellman Ford detect for negative weight cycles?
