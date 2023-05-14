@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from './vite.svg';
-import './App.css';
+import { useEffect, useState, useRef } from "react";
+import * as d3 from "d3";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "./vite.svg";
+import "./App.css";
 
 function App() {
   const [rates, setRates] = useState<any>({});
+  const graphRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchRates() {
-      const response = await fetch('http://localhost:5000/get_rates');
+      const response = await fetch("http://127.0.0.1:5000/get_rates");
       const data = await response.json();
       setRates(data);
     }
@@ -21,6 +23,46 @@ function App() {
     // Clean up the interval
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    // Check if rates data is available
+    if (Object.keys(rates).length === 0) {
+      return;
+    }
+
+    // Clear previous graph
+    d3.select(graphRef.current).selectAll("*").remove();
+
+    // Create a new graph
+    const svg = d3
+      .select(graphRef.current)
+      .append("svg")
+      .attr("width", 400)
+      .attr("height", 300);
+
+    const keys = Object.keys(rates);
+    const values = Object.values(rates);
+
+    // Create scales
+    const xScale = d3.scaleBand().domain(keys).range([0, 400]).padding(0.1);
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(values) || 0])
+      .range([300, 0]);
+
+    // Create bars
+    svg
+      .selectAll("rect")
+      .data(keys)
+      .enter()
+      .append("rect")
+      .attr("x", (d) => xScale(d) || 0)
+      .attr("y", (d) => yScale(rates[d]))
+      .attr("width", xScale.bandwidth())
+      .attr("height", (d) => 300 - yScale(rates[d]))
+      .attr("fill", "steelblue");
+  }, [rates]);
 
   function hasNegativeCycle() {
     const nodes = Object.keys(rates);
@@ -79,11 +121,12 @@ function App() {
         <ul>
           {Object.entries(rates).map(([currency, rate]) => (
             <li key={currency}>
-              {currency.replace('-', '> ')} : {rates[currency]}
+              {currency.replace("-", "> ")} : {rates[currency]}
             </li>
           ))}
         </ul>
       </div>
+      <div className="graph-container" ref={graphRef}></div>
       {hasNegativeCycle() ? (
         <p>A negative cycle exists in the graph.</p>
       ) : (
