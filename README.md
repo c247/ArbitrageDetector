@@ -39,4 +39,4 @@ npm run dev
 ### Enjoy - the App.tsx file contains the bellman-ford logic to detect arbitrages
 
 
-![demo](./demo.PNG)
+![demo](./sample.PNG)
